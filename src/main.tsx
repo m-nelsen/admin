@@ -5,14 +5,16 @@ import ErrorPage from "./routes/error-page";
 import Login from "./routes/login";
 import Admin from "./routes/admin";
 
+const baseRoute = import.meta.env.VITE_BASE_ROUTE;
+
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: `${baseRoute}/`,
     element: <Admin />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/login",
+    path: `${baseRoute}/login`,
     element: <Login />,
   },
 ]);
