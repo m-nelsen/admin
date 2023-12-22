@@ -1,42 +1,72 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { Navigate } from "react-router";
 import "../scss/main.scss";
 
+type Inputs = {
+  username: string;
+  password: string;
+};
+
 export default function Login() {
+  const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } = useForm<any>();
+  } = useForm<Inputs>();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit: SubmitHandler<any> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data: FieldValues) => {
+    await fetch(`${import.meta.env.VITE_API_BASE_ROUTE}/api/auth/login`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      response?.status === 200 ? setShouldRedirect(true) : null;
+    });
+  };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <p>Login</p>
-        <div className="input-group">
+    <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="border border-black border-2 p-4"
+      >
+        <p className="fs-1 text-center">Login</p>
+        <div className="input-group has-validation mb-2">
           <input
-            {...register("username", { required: true })}
+            {...register("username", { required: "Please enter a username" })}
+            className="form-control is-invalid"
             placeholder="Username"
           />
           {errors.username && (
-            <span className="error-message">This field is required</span>
+            <div className="invalid-feedback d-block">
+              Please enter a username.
+            </div>
           )}
         </div>
-        <div className="input-group">
+        <div className="input-group has-validation mb-2">
           <input
-            {...register("password", { required: true })}
-            placeholder="password"
+            {...register("password", { required: "Please enter a password." })}
+            className="form-control is-invalid"
+            type="password"
+            placeholder="Password"
           />
+
           {errors.password && (
-            <span className="error-message">This field is required</span>
+            <div className="invalid-feedback d-block">
+              Please enter a password.
+            </div>
           )}
         </div>
 
         <input type="submit" />
+        {shouldRedirect && <Navigate replace to="/" />}
       </form>
-    </>
+    </div>
   );
 }
