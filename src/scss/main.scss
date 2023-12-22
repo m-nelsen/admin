@@ -1,34 +1,5 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
 body {
-  background-color: rgb(200, 200, 200);
-}
-
-#root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    border: 1px solid black;
-
-    p {
-      font-size: 2rem;
-    }
-
-    .input-group {
-      width: 100%;
-      margin-left: 2rem;
-    }
-
-    .error-message {
-      color: red;
-      display: block;
-    }
-  }
+  background-color: rgb(238, 238, 238);
 }
