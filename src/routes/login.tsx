@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { Navigate } from "react-router";
+import { Link } from "react-router-dom";
 import "../scss/main.scss";
 
 type Inputs = {
@@ -67,6 +68,7 @@ export default function Login() {
         <input type="submit" />
         {shouldRedirect && <Navigate replace to="/" />}
       </form>
+      <Link to="/">Admin Page</Link>
     </div>
   );
 }

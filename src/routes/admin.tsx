@@ -1,4 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
+import { Link } from "react-router-dom";
 
 export default function Admin() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,6 +35,7 @@ export default function Admin() {
 
   return (
     <div className="w-100">
+      <Link to="/login">Login Page</Link>
       <h1 className="fs-1">Admin</h1>
       <table className="table">
         <thead>
