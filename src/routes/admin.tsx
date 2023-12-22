@@ -10,7 +10,6 @@ export default function Admin() {
       await fetch(`${import.meta.env.VITE_API_BASE_ROUTE}/api/wedding/`)
         .then((response) => response.json())
         .then((data) => {
-          console.log("jsonData: ", data);
           setJsonData(data);
         });
     }
@@ -35,7 +34,7 @@ export default function Admin() {
 
   return (
     <div className="w-100">
-      <Link to="/login">Login Page</Link>
+      <Link to="/">Login Page</Link>
       <h1 className="fs-1">Admin</h1>
       <table className="table">
         <thead>

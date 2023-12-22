@@ -41,7 +41,7 @@ export default function Login() {
         <div className="input-group has-validation mb-2">
           <input
             {...register("username", { required: "Please enter a username" })}
-            className="form-control is-invalid"
+            className={`form-control ${errors.username ? "is-invalid" : ""}`}
             placeholder="Username"
           />
           {errors.username && (
@@ -53,7 +53,7 @@ export default function Login() {
         <div className="input-group has-validation mb-2">
           <input
             {...register("password", { required: "Please enter a password." })}
-            className="form-control is-invalid"
+            className={`form-control ${errors.password ? "is-invalid" : ""}`}
             type="password"
             placeholder="Password"
           />
@@ -68,7 +68,7 @@ export default function Login() {
         <input type="submit" />
         {shouldRedirect && <Navigate replace to="/" />}
       </form>
-      <Link to="/">Admin Page</Link>
+      <Link to="/dashboard">Admin Page</Link>
     </div>
   );
 }
