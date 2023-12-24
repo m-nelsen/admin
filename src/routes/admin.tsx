@@ -44,6 +44,7 @@ export default function Admin() {
             <th scope="col">Attendance Status</th>
             <th scope="col">Preferred Entree</th>
             <th scope="col">Dietary Restrictions</th>
+            <th scope="col">Date Created</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -58,6 +59,7 @@ export default function Admin() {
                 preferredEntree,
                 dietaryRestrictions,
                 guests = [],
+                createdAt,
               } = data;
 
               const obj = guests.map((guest, index) => {
@@ -88,6 +90,7 @@ export default function Admin() {
                     <td>{attendanceStatus ? "Coming" : "Not comming"}</td>
                     <td>{preferredEntree}</td>
                     <td>{dietaryRestrictions}</td>
+                    <td>{createdAt}</td>
                     <td>
                       <div className="btn-group">
                         <button
