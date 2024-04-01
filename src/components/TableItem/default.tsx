@@ -64,7 +64,7 @@ const TableItem: FC<TableItemProps> = (props) => {
             <strong>Dietary Restrictions</strong>
           </p>
         </div>
-        <div className="col-1">
+        <div className="col-2">
           <p>
             <strong>Date Created</strong>
           </p>
@@ -76,7 +76,7 @@ const TableItem: FC<TableItemProps> = (props) => {
 
   return (
     <div className={`table-item row ${(isGuest && "bg-light-blue") || ""}`}>
-      <div className="col">
+      <div className="col text-wrap">
         <p className={`${(isGuest && "ms-4") || ""}`}>
           {/* {isGuest && <span className="me-2">&middot;</span>} */}
           {(firstName && lastName && `${firstName} ${lastName}`) || ""}
@@ -88,25 +88,23 @@ const TableItem: FC<TableItemProps> = (props) => {
       <div className="col">
         <p>{preferredEntree || ""}</p>
       </div>
-      <div className="col">
+      <div className="col text-wrap">
         <p>{dietaryRestrictions || ""}</p>
       </div>
-      <div className="col-1">
+      <div className="col-2">
         <p>{(createdAt && new Date(createdAt).toLocaleDateString()) || ""}</p>
       </div>
       <div className="col-1 d-flex justify-content-center align-items-center">
         {props?.onDelete && (
-     
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={(e) => {
-                props?.onDelete?.(e, id);
-              }}
-            >
-              Delete
-            </button>
-       
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={(e) => {
+              props?.onDelete?.(e, id);
+            }}
+          >
+            Delete
+          </button>
         )}
       </div>
     </div>

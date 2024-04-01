@@ -64,7 +64,7 @@ export default function Admin() {
   };
 
   return (
-    <div className="w-100">
+    <div className="w-100 horizontal-scrolling">
       <nav className="navigation px-4 py-1">
         <Link to="/">Login</Link>
       </nav>
