@@ -3,3 +3,22 @@
 body {
   background-color: rgb(238, 238, 238);
 }
+
+.navigation {
+  background-color: #333;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.bg-light-blue {
+  background-color: #cff4fc;
+}
+
+.table-item {
+  p {
+    margin: .75rem 0;
+  }
+}

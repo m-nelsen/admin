@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
+import TableItem from "../components/TableItem/default";
 
 export default function Admin() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,8 +18,38 @@ export default function Admin() {
     fetchWeddingData();
   }, []);
 
+  // Get a count of guests
+  const getGuestCount = ({ jsonData, responseType }) => {
+    let count = 0;
+
+    if (!jsonData) {
+      return 0;
+    }
+
+    jsonData.forEach((element) => {
+      // Increment count if guest is attending
+      if (responseType === "coming") {
+        if (element.attendanceStatus) {
+          if (element.guests) {
+            count += element.guests.length;
+          }
+
+          count++;
+        }
+      } else {
+        if (element.guests) {
+          count += element.guests.length;
+        }
+
+        count++;
+      }
+    });
+
+    return count;
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onDelete = (e: any, id: string) => {
+  const onDeleteHandler = (e: any, id: string) => {
     e.preventDefault();
     fetch(`${import.meta.env.VITE_API_BASE_ROUTE}/api/wedding/${id}`, {
       method: "DELETE",
@@ -34,83 +65,78 @@ export default function Admin() {
 
   return (
     <div className="w-100">
-      <Link to="/">Login Page</Link>
-      <h1 className="fs-1">Admin</h1>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Attendance Status</th>
-            <th scope="col">Preferred Entree</th>
-            <th scope="col">Dietary Restrictions</th>
-            <th scope="col">Date Created</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {jsonData &&
-            jsonData.map((data, index) => {
+      <nav className="navigation px-4 py-1">
+        <Link to="/">Login</Link>
+      </nav>
+
+      <h1 className="fs-1 px-4 pt-2">Admin Dashboard</h1>
+
+      <div className="card">
+        <div className="card-body px-4">
+          <h5 className="card-title fs-6 m-0 mb-2">
+            Coming:&nbsp;
+            <span>{getGuestCount({ jsonData, responseType: "coming" })}</span>
+          </h5>
+          <h5 className="card-title fs-6 m-0">
+            Total Responses:&nbsp;
+            <span>{getGuestCount({ jsonData, responseType: "" })}</span>
+          </h5>
+        </div>
+      </div>
+
+      <section className="card p-4">
+        <TableItem isHeader={true} />
+        {jsonData &&
+          jsonData.map((data, index) => {
+            const {
+              _id: id,
+              firstName,
+              lastName,
+              attendanceStatus,
+              preferredEntree,
+              dietaryRestrictions,
+              guests = [],
+              createdAt,
+            } = data;
+
+            const guestMap = guests.map((guest, index) => {
               const {
-                _id: id,
                 firstName,
                 lastName,
-                attendanceStatus,
                 preferredEntree,
                 dietaryRestrictions,
-                guests = [],
-                createdAt,
-              } = data;
-
-              const obj = guests.map((guest, index) => {
-                const {
-                  firstName,
-                  lastName,
-                  preferredEntree,
-                  dietaryRestrictions,
-                } = guest;
-
-                return (
-                  <tr key={`data-guest-${index}`} className="table-info">
-                    <th scope="row">{index + 1}</th>
-                    <td>{`${firstName} ${lastName}`}</td>
-                    <td>Guest</td>
-                    <td>{preferredEntree}</td>
-                    <td>{dietaryRestrictions}</td>
-                    <td></td>
-                  </tr>
-                );
-              });
+              } = guest;
 
               return (
-                <Fragment key={`data-${index}`}>
-                  <tr className="bg-light">
-                    <th scope="row">{index + 1}</th>
-                    <td>{`${firstName} ${lastName}`}</td>
-                    <td>{attendanceStatus ? "Coming" : "Not comming"}</td>
-                    <td>{preferredEntree}</td>
-                    <td>{dietaryRestrictions}</td>
-                    <td>{createdAt}</td>
-                    <td>
-                      <div className="btn-group">
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={(e) => {
-                            onDelete(e, id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  {...obj}
+                <Fragment key={`data-guest-${index}`}>
+                  <TableItem
+                    firstName={firstName}
+                    lastName={lastName}
+                    preferredEntree={preferredEntree}
+                    dietaryRestrictions={dietaryRestrictions}
+                    isGuest={true}
+                  />
                 </Fragment>
               );
-            })}
-        </tbody>
-      </table>
+            });
+
+            return (
+              <Fragment key={`data-${index}`}>
+                <TableItem
+                  id={id}
+                  firstName={firstName}
+                  lastName={lastName}
+                  attendanceStatus={attendanceStatus}
+                  preferredEntree={preferredEntree}
+                  dietaryRestrictions={dietaryRestrictions}
+                  createdAt={createdAt}
+                  onDelete={onDeleteHandler}
+                />
+                {...guestMap}
+              </Fragment>
+            );
+          })}
+      </section>
     </div>
   );
 }

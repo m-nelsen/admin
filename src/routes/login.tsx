@@ -32,43 +32,49 @@ export default function Login() {
   };
 
   return (
-    <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="border border-black border-2 p-4"
-      >
-        <p className="fs-1 text-center">Login</p>
-        <div className="input-group has-validation mb-2">
-          <input
-            {...register("username", { required: "Please enter a username" })}
-            className={`form-control ${errors.username ? "is-invalid" : ""}`}
-            placeholder="Username"
-          />
-          {errors.username && (
-            <div className="invalid-feedback d-block">
-              Please enter a username.
-            </div>
-          )}
-        </div>
-        <div className="input-group has-validation mb-2">
-          <input
-            {...register("password", { required: "Please enter a password." })}
-            className={`form-control ${errors.password ? "is-invalid" : ""}`}
-            type="password"
-            placeholder="Password"
-          />
+    <>
+      <nav className="navigation px-4 py-1">
+        <Link to="/dashboard">Admin Dashboard</Link>
+      </nav>
+      <div className="vh-100 w-100 d-flex flex-column justify-content-center align-items-center">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="border border-black border-2 p-4"
+        >
+          <p className="fs-1 text-center">Login</p>
+          <div className="input-group has-validation mb-2">
+            <input
+              {...register("username", { required: "Please enter a username" })}
+              className={`form-control ${errors.username ? "is-invalid" : ""}`}
+              placeholder="Username"
+            />
+            {errors.username && (
+              <div className="invalid-feedback d-block">
+                Please enter a username.
+              </div>
+            )}
+          </div>
+          <div className="input-group has-validation mb-2">
+            <input
+              {...register("password", {
+                required: "Please enter a password.",
+              })}
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
+              type="password"
+              placeholder="Password"
+            />
 
-          {errors.password && (
-            <div className="invalid-feedback d-block">
-              Please enter a password.
-            </div>
-          )}
-        </div>
+            {errors.password && (
+              <div className="invalid-feedback d-block">
+                Please enter a password.
+              </div>
+            )}
+          </div>
 
-        <input type="submit" />
-        {shouldRedirect && <Navigate replace to="/" />}
-      </form>
-      <Link to="/dashboard">Admin Page</Link>
-    </div>
+          <input type="submit" />
+          {shouldRedirect && <Navigate replace to="/" />}
+        </form>
+      </div>
+    </>
   );
 }
